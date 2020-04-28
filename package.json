@@ -1,0 +1,38 @@
+{
+  "name": "treasure-extractor-booru",
+  "version": "1.0.0",
+  "description": "Extracts images from booru websites.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hamymarnie/treasure-extractor-booru.git"
+  },
+  "keywords": [
+    "booru",
+    "extractor",
+    "danbooru",
+    "gelbooru",
+    "e621",
+    "e926",
+    "konachan",
+    "yandere",
+    "furry",
+    "lolibooru",
+    "realbooru",
+    "rule34.xx",
+    "rule.paheal.net"
+  ],
+  "author": "marnie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hamymarnie/treasure-extractor-booru/issues"
+  },
+  "homepage": "https://github.com/hamymarnie/treasure-extractor-booru#readme",
+  "dependencies": {
+    "booru": "^2.2.3",
+    "fs": "0.0.1-security"
+  }
+}
