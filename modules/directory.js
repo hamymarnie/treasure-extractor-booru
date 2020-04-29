@@ -36,10 +36,10 @@ exports.AttemptToDownloadImage = async function(url, path)
             console.log("Error trying to write file \"" + path + "\": " + error)
         })
 
-        request.setTimeout(30000, function()
+        request.setTimeout(30000 * (limit/2), function()
         {
             request.abort()
-            console.log("Aborted since request exceeded 30 seconds.")
+            console.log("Aborted since request timed out.")
 		})
     }
     catch(error)

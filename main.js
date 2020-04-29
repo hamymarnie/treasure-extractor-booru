@@ -85,11 +85,17 @@ async function Start(limit = options.amount, random = options.random)
 							dir.CreateDirectory(dirPath)
 							console.log("Wrote directory: " + dirPath)
 						}
-						let thePath = options.organized == true && dirPath || path
+						else
+						{
+							var iPath = path + "/images"
+							dir.CreateDirectory(iPath)
+						}
+
+						let thePath = options.organized == true && dirPath || iPath
 
 						try
 						{
-							var result = await dir.AttemptToDownloadImage(post.fileUrl, thePath + "/" + success + " - " + base.basename(post.fileUrl))
+							var result = await dir.AttemptToDownloadImage(post.fileUrl, thePath + "/" + success + " - " + base.basename(post.fileUrl), limit)
 							if (result == 1)
 							{
 								console.log("Error trying to get file from " + post.fileUrl + " for index " + success + ": The directory will remain empty.")
