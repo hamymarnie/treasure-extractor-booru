@@ -3,6 +3,7 @@ const dir = require("./modules/directory")
 
 const booru = require("booru")
 const fs = require("fs-extra") 
+const base = require("path")
 //
 console.log("Starting Treasure-Extractor by marnie...")
 console.log("Reading settings.json...")
@@ -41,13 +42,11 @@ dir.CreateDirectory(path)
 const Site = boorus[options.site]
 const tags = options.tags.concat()
 
-const limit = options.amount
-const random = options.random
-
-async function Start() 
+async function Start(limit = options.amount, random = options.random) 
 {
 	if (Site)
 	{
+		var urls = []
 		var success = 0
 		var posts = null
 
@@ -63,13 +62,72 @@ async function Start()
 
 		if (posts)
 		{
+			if (options.organized == false)
+			{
+				var txtPath = path + "/sources.txt"
+				var file = await fs.createWriteStream(txtPath, "utf8")
+			
+				fs.outputFile(txtPath, "Sources for " + DesiredName + "\n-------------------------------------------------------\n")				
+				console.log("Created sources.txt for batch")
+			}
+
 			for (success; success <= limit; success++)
 			{
 				let post = posts[success]
 
 				if (post)
 				{
-					console.log("[" + success + "] Got: " + post.fileUrl)
+					if (typeof post.fileUrl == "string")
+					{
+						if (options.organized == true)
+						{
+							var dirPath = path + "/" + success
+							dir.CreateDirectory(dirPath)
+							console.log("Wrote directory: " + dirPath)
+						}
+						let thePath = options.organized == true && dirPath || path
+
+						try
+						{
+							var result = await dir.AttemptToDownloadImage(post.fileUrl, thePath + "/" + success + " - " + base.basename(post.fileUrl))
+							if (result == 1)
+							{
+								console.log("Error trying to get file from " + post.fileUrl + " for index " + success + ": The directory will remain empty.")
+							}
+						}
+						catch (err)
+						{
+							console.log("Error trying to get file from " + post.fileUrl + " for index " + success + ": " + err)
+						}
+
+						if (options.organized == true) 
+						{
+							await fs.ensureFile(dirPath + "/content.json")
+							.then(() => 
+							{
+								let jsonContents = {
+									fileUrl: post.fileUrl,
+									tags: post.tags,
+									id: post.id,
+									score: post.score,
+									source: post.source,
+									rating: post.rating
+								}
+
+								fs.writeFile(dirPath + "/content.json", JSON.stringify(jsonContents, null, "\t"))
+								console.log("Wrote information for " + success + " at its own content.json")
+							})
+						}
+						else	
+						{
+							fs.appendFile(txtPath, "\n [" + success + "] ~ URL: " + post.fileUrl)
+							console.log("Appending source for: " + success)
+						}
+					}
+					else
+					{
+						console.log("Index " + success + " is not a valid file, ignoring...")
+					}
 				}
 			}
 		}

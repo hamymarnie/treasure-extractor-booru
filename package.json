@@ -35,7 +35,6 @@
     "axios": "^0.19.2",
     "booru": "^2.2.3",
     "fs": "0.0.1-security",
-    "fs-extra": "^9.0.0",
-    "winston": "^3.2.1"
+    "fs-extra": "^9.0.0"
   }
 }

@@ -1,8 +1,9 @@
 {
-	"site": "gelb",
+	"site": "danb",
 	"tags": [
 		"rating:explicit"
 	],
 	"amount": 50,
-	"random": true
+	"random": true,
+	"organized": false
 }
