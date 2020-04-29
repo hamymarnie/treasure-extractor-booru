@@ -136,6 +136,8 @@ async function Start(limit = options.amount, random = options.random)
 					}
 				}
 			}
+
+			console.log("Done. Images written: " + success)
 		}
 	}
 	else

@@ -6,7 +6,6 @@ exports.CreateDirectory = async function(path, options = {mode: 0o2775})
     try
     {
         await fs.ensureDir(path)
-        console.log("File does exist or is already created.")
     }
     catch (err)
     {
@@ -14,7 +13,7 @@ exports.CreateDirectory = async function(path, options = {mode: 0o2775})
     }
 }
 
-exports.AttemptToDownloadImage = async function(url, path)
+exports.AttemptToDownloadImage = async function(url, path, limit)
 {
     if (!url) {return}
     let result = 0
@@ -36,7 +35,7 @@ exports.AttemptToDownloadImage = async function(url, path)
             console.log("Error trying to write file \"" + path + "\": " + error)
         })
 
-        request.setTimeout(30000 * (limit/2), function()
+        request.setTimeout(30000, function()
         {
             request.abort()
             console.log("Aborted since request timed out.")
