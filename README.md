@@ -30,7 +30,9 @@ By default it should look like this:
 	],
 	"amount": 50,
 	"random": true,
-	"organized": false
+	"organized": false,
+	
+	"allsite": false
 }
 ```
 
@@ -64,3 +66,5 @@ You can edit this **json** file to change the behavior of the program.
   - if the images are randomized.
 - organized
   - if the images are seperated by directories containing a `contents.json` file, or inside the directory with a `sources.txt` file.
+- allsite
+  - if the program gets images from every site listed. This will ignore the "organized" option and will still write images from individual directories.
