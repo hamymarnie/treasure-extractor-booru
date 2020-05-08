@@ -1,12 +1,11 @@
 {
 	"site": "danb",
 	"tags": [
-		"houshou_marine",
 		"rating:explicit"
 	],
 	"amount": 50,
 	"random": true,
 	"organized": false,
 
-	"allsite": true
+	"allsite": false
 }
