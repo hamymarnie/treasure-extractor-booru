@@ -95,7 +95,7 @@ async function Start(limit = options.amount, random = options.random)
 
 						try
 						{
-							var result = await dir.AttemptToDownloadImage(post.fileUrl, thePath + "/" + success + " - " + base.basename(post.fileUrl), limit)
+							var result = await dir.AttemptToDownloadImage(post.fileUrl, thePath + "/" + success + " - "+ base.basename(post.fileUrl), limit)
 							if (result == 1)
 							{
 								console.log("Error trying to get file from " + post.fileUrl + " for index " + success + ": The directory will remain empty.")
