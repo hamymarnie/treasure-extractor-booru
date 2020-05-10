@@ -1,5 +1,6 @@
 // by marnie
 const dir = require("./modules/directory")
+const date = new Date()
 
 const booru = require("booru")
 const fs = require("fs-extra") 
@@ -34,7 +35,7 @@ dir.CreateDirectory("./batches")
 // Creating a batch with tick name...
 console.log("Creating directory batch...")
 
-let DesiredName = "[batch] ID " + Date.now()
+let DesiredName = `[${options.allsite && "all site" || options.site} ${options.organized && "o" || "uo"}] ID ${date.getMonth()}-${date.getDate()}-${date.getFullYear()}`
 
 const path = "./batches/" + DesiredName
 dir.CreateDirectory(path)
@@ -42,7 +43,7 @@ dir.CreateDirectory(path)
 const Site = boorus[options.site]
 const tags = options.tags.concat()
 
-async function Start(limit = options.amount, random = options.random) 
+async function Start(Site, customPath, limit = options.amount, random = options.random) 
 {
 	if (Site)
 	{
@@ -77,7 +78,7 @@ async function Start(limit = options.amount, random = options.random)
 
 				if (post)
 				{
-					if (typeof post.fileUrl == "string")
+					if (typeof post.fileUrl == "string" && base.basename(post.fileUrl).match(/./gi))	
 					{
 						if (options.organized == true)
 						{
@@ -87,15 +88,17 @@ async function Start(limit = options.amount, random = options.random)
 						}
 						else
 						{
-							var iPath = path + "/images"
+							var iPath = customPath && customPath || path + "/images"
 							dir.CreateDirectory(iPath)
 						}
-
-						let thePath = options.organized == true && dirPath || iPath
 
 						try
 						{
 							var result = await dir.AttemptToDownloadImage(post.fileUrl, thePath + "/" + success + " - "+ base.basename(post.fileUrl), limit)
+							let nameOf = base.basename(post.fileUrl)
+							let thePath = options.organized == true && dirPath || iPath
+
+							var result = await dir.AttemptToDownloadImage(post.fileUrl, thePath + "/" + success + " - " + nameOf.substr(nameOf.length - 15, nameOf.length), limit)
 							if (result == 1)
 							{
 								console.log("Error trying to get file from " + post.fileUrl + " for index " + success + ": The directory will remain empty.")
@@ -146,4 +149,27 @@ async function Start(limit = options.amount, random = options.random)
 	}
 }
 
-Start()
+async function AllSite(limit = options.amount, random = options.random)
+{
+	for (let i in boorus)
+	{	
+		let Site = boorus[i]
+		let Path = path + "/" + i
+		console.log("Getting images from site \"" + i + "\"")
+
+		dir.CreateDirectory(Path)
+		await Start(Site, Path)
+	}
+}
+
+// Init
+switch (options.allsite)
+{
+	case true:
+		AllSite()
+		break
+
+	case false:
+		Start(Site)
+		break
+}

@@ -5,5 +5,7 @@
 	],
 	"amount": 100,
 	"random": true,
-	"organized": false
+	"organized": false,
+
+	"allsite": false
 }
