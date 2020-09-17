@@ -1,4 +1,5 @@
-# Treasure Extractor -- Booru by marnie
+# [DEPRECATED] Treasure Extractor -- Booru by marnie
+## This repository is deprecated and no longer works. A new version will be made soon.
 Extracts randomized images from Booru websites.
 
 This program uses the [Booru API.](https://www.npmjs.com/package/booru)
@@ -50,7 +51,6 @@ You can edit this **json** file to change the behavior of the program.
       - **yandere**
       - **gelb**
       - **r34**
-      - **loli**
       - **r34pa**
       - **derp**
       - **fur**
