@@ -37,12 +37,12 @@ exports.GetFileSize = async function(url)
 exports.AttemptToDownloadImage = async function(url, path, limit)
 {
     if (!url) {return}
-    let result = 0
-    let file = fs.createWriteStream(path)  
+    var result = 0
+    var file = await fs.createWriteStream(path)  
     
     console.log("Attempting to get URL: " + url)/*
     const bar = new progress.SingleBar({
-        stopOnComplete: true,
+        stopOnCompvare: true,
         format: "Writing... [{bar}] | {percentage} | ETA: {eta}s | {value}/{total}"
     }, progress.Presets.shades_classic)*/
 
@@ -54,15 +54,15 @@ exports.AttemptToDownloadImage = async function(url, path, limit)
             speed: "Undefined"
         })*/
 
-        let request = http.get(url, function(response)
+        var request = http.get(url, function(response)
         {
             response.pipe(file)
-            let isDone = false
+            var isDone = false
 
             file.on("finish", function()
             {
                 isDone = true
-                let bytes = file.bytesWritten/1048576
+                var bytes = file.bytesWritten/1048576
                 
                 console.log("Wrote file at " + path + " with size: " + Math.round(bytes * 100) / 100 + " megabytes")
                 //bar.stop()
@@ -75,7 +75,7 @@ exports.AttemptToDownloadImage = async function(url, path, limit)
             /*
             file.on("ready", function()
             {
-                let LastWritten = file.bytesWritten
+                var LastWritten = file.bytesWritten
                 while (isDone == false) 
                 {
                     bar.update(file.bytesWritten - LastWritten)
@@ -100,7 +100,7 @@ exports.AttemptToDownloadImage = async function(url, path, limit)
     {
       fs.unlink(path)
       console.log("An error was thrown trying to obtain URL: " + url + ": " + error)
-      console.log("The directory will be deleted.")
+      console.log("The directory will be devared.")
 
       result = 1
 	}

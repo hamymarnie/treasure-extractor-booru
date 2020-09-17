@@ -35,7 +35,7 @@ dir.CreateDirectory("./batches")
 // Creating a batch with tick name...
 console.log("Creating directory batch...")
 
-let DesiredName = `[${options.allsite && "all site" || options.site} ${options.organized && "o" || "uo"}] ID ${date.getMonth()}-${date.getDate()}-${date.getFullYear()}`
+var DesiredName = `[${options.allsite && "all site" || options.site} ${options.organized && "o" || "uo"}] ID ${date.getMonth()}-${date.getDate()}-${date.getFullYear()}`
 
 const path = "./batches/" + DesiredName
 dir.CreateDirectory(path)
@@ -74,7 +74,7 @@ async function Start(Site, customPath, limit = options.amount, random = options.
 
 			for (success; success <= limit; success++)
 			{
-				let post = posts[success]
+				var post = posts[success]
 
 				if (post)
 				{
@@ -83,20 +83,20 @@ async function Start(Site, customPath, limit = options.amount, random = options.
 						if (options.organized == true)
 						{
 							var dirPath = path + "/" + success
-							dir.CreateDirectory(dirPath)
+							await dir.CreateDirectory(dirPath)
 							console.log("Wrote directory: " + dirPath)
 						}
 						else
 						{
 							var iPath = customPath && customPath || path + "/images"
-							dir.CreateDirectory(iPath)
+							await dir.CreateDirectory(iPath)
 						}
 
 						try
 						{
 							var result = await dir.AttemptToDownloadImage(post.fileUrl, thePath + "/" + success + " - "+ base.basename(post.fileUrl), limit)
-							let nameOf = base.basename(post.fileUrl)
-							let thePath = options.organized == true && dirPath || iPath
+							var nameOf = base.basename(post.fileUrl)
+							var thePath = options.organized == true && dirPath || iPath
 
 							var result = await dir.AttemptToDownloadImage(post.fileUrl, thePath + "/" + success + " - " + nameOf.substr(nameOf.length - 15, nameOf.length), limit)
 							if (result == 1)
@@ -114,7 +114,7 @@ async function Start(Site, customPath, limit = options.amount, random = options.
 							await fs.ensureFile(dirPath + "/content.json")
 							.then(() => 
 							{
-								let jsonContents = {
+								var jsonContents = {
 									fileUrl: post.fileUrl,
 									tags: post.tags,
 									id: post.id,
@@ -151,10 +151,10 @@ async function Start(Site, customPath, limit = options.amount, random = options.
 
 async function AllSite(limit = options.amount, random = options.random)
 {
-	for (let i in boorus)
+	for (var i in boorus)
 	{	
-		let Site = boorus[i]
-		let Path = path + "/" + i
+		var Site = boorus[i]
+		var Path = path + "/" + i
 		console.log("Getting images from site \"" + i + "\"")
 
 		dir.CreateDirectory(Path)
