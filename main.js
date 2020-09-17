@@ -35,7 +35,7 @@ dir.CreateDirectory("./batches")
 // Creating a batch with tick name...
 console.log("Creating directory batch...")
 
-var DesiredName = `[${options.allsite && "all site" || options.site} ${options.organized && "o" || "uo"}] ID ${date.getMonth()}-${date.getDate()}-${date.getFullYear()}`
+var DesiredName = `[${options.allsite && "all site" || options.site} ${options.organized && "o" || "uo"}] ID ${date.getMonth()}-${date.getDate()}-${date.getFullYear()} ${date.getHours()}-${date.getMinutes()}`
 
 const path = "./batches/" + DesiredName
 dir.CreateDirectory(path)
@@ -94,7 +94,6 @@ async function Start(Site, customPath, limit = options.amount, random = options.
 
 						try
 						{
-							var result = await dir.AttemptToDownloadImage(post.fileUrl, thePath + "/" + success + " - "+ base.basename(post.fileUrl), limit)
 							var nameOf = base.basename(post.fileUrl)
 							var thePath = options.organized == true && dirPath || iPath
 

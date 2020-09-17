@@ -40,19 +40,10 @@ exports.AttemptToDownloadImage = async function(url, path, limit)
     var result = 0
     var file = await fs.createWriteStream(path)  
     
-    console.log("Attempting to get URL: " + url)/*
-    const bar = new progress.SingleBar({
-        stopOnCompvare: true,
-        format: "Writing... [{bar}] | {percentage} | ETA: {eta}s | {value}/{total}"
-    }, progress.Presets.shades_classic)*/
+    console.log("Attempting to get URL: " + url)
 
     try
     {
-        /*
-        var fileSize = this.GetFileSize(url)
-        bar.start(fileSize || 0, 0, {
-            speed: "Undefined"
-        })*/
 
         var request = http.get(url, function(response)
         {
@@ -65,25 +56,17 @@ exports.AttemptToDownloadImage = async function(url, path, limit)
                 var bytes = file.bytesWritten/1048576
                 
                 console.log("Wrote file at " + path + " with size: " + Math.round(bytes * 100) / 100 + " megabytes")
-                //bar.stop()
 		    })
 
             file.on("open", function()
             {
                 console.log("Starting request for " + path)
             })
-            /*
+
             file.on("ready", function()
             {
-                var LastWritten = file.bytesWritten
-                while (isDone == false) 
-                {
-                    bar.update(file.bytesWritten - LastWritten)
+            })
 
-                    LastWritten = file.bytesWritten
-                    wait(1/30)
-                }   
-            })*/
 	    }).on("error", function(error)
         {
             fs.unlink(path)
