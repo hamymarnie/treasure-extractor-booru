@@ -27,9 +27,7 @@ By default it should look like this:
 ```json
 {
 	"site": "danb",
-	"tags": [
-		"rating:explicit"
-	],
+	"tags": [],
 	"amount": 50,
 	"random": true,
 	"organized": false,
