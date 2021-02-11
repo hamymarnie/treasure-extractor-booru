@@ -1,4 +1,6 @@
 # Treasure Extractor -- Booru by marnie
+## DEPRECATED
+### A new version will be made soon. This is old code and is very unreliable and inefficient.
 Extracts randomized images from Booru websites.
 
 This program uses the [Booru API.](https://www.npmjs.com/package/booru)
@@ -25,9 +27,7 @@ By default it should look like this:
 ```json
 {
 	"site": "danb",
-	"tags": [
-		"rating:explicit"
-	],
+	"tags": [],
 	"amount": 50,
 	"random": true,
 	"organized": false,
