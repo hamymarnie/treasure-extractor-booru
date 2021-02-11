@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/hamymarnie/treasure-extractor-booru#readme",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "booru": "^2.2.3",
     "cli-progress": "^3.8.2",
     "fs": "0.0.1-security",

@@ -1,3 +1,5 @@
 batches/
 .vs/
 FORCE
+node_modules/
+.DS_Store

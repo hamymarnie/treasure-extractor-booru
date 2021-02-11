@@ -1,10 +1,10 @@
 {
 	"site": "gelb",
 	"tags": [
-		"rating:explicit",
-		"hololive"
+		"rating:safe",
+		"watson_amelia"
 	],
-	"amount": 100,
+	"amount": 500,
 	"random": true,
 	"organized": false,
 
