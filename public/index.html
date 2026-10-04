@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Your local workspace for collecting files from booru sites."
+    />
+    <title>Treasure Extractor · Local workspace</title>
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <a class="brand" href="/" aria-label="Treasure Extractor home">
+          <span class="brand-mark" aria-hidden="true">↧</span>
+          <span>treasure<span class="brand-sub">EXTRACTOR</span></span>
+        </a>
+        <span class="nav-label">WORKSPACE</span>
+        <nav aria-label="Workspace">
+          <button class="nav-item active" id="nav-extract" aria-current="page">
+            <span aria-hidden="true">↧</span> New extraction
+          </button>
+          <button class="nav-item" id="nav-batches">
+            <span aria-hidden="true">▤</span> Saved batches
+            <span id="batch-count" class="nav-count">0</span>
+          </button>
+        </nav>
+        <div class="sidebar-footer">
+          <div class="local-indicator"><span class="status-dot"></span> RUNS ON YOUR MACHINE</div>
+          <p>Collected files stay in your local batch folder.</p>
+          <div class="version">Treasure Extractor <span>v2.0</span></div>
+        </div>
+      </aside>
+      <main>
+        <header class="topbar">
+          <span>YOUR LOCAL WORKSPACE</span
+          ><span class="connection" id="connection"
+            ><span class="status-dot"></span> Connecting</span
+          >
+        </header>
+        <div class="content">
+          <section class="page-heading">
+            <div>
+              <div class="eyebrow">COLLECT SOMETHING GOOD</div>
+              <h1 id="page-title">Start a new extraction<span>.</span></h1>
+              <p id="page-description">
+                Pick a source, add your tags, and bring your next batch home.
+              </p>
+            </div>
+            <span class="local-badge">LOCAL TOOL <span aria-hidden="true">↗</span></span>
+          </section>
+          <div class="workspace-grid" id="extract-workspace">
+            <section class="panel setup-panel" aria-labelledby="setup-heading">
+              <div class="panel-heading">
+                <h2 id="setup-heading">Extraction settings</h2>
+                <span class="step-label">01 / CONFIGURE</span>
+              </div>
+              <form id="extract-form">
+                <label class="field-label" for="site">Source website</label>
+                <select id="site" name="site" required disabled>
+                  <option>Loading sources…</option>
+                </select>
+                <div class="field-title">
+                  <label class="field-label" for="tags">Search tags</label
+                  ><span class="optional">OPTIONAL</span>
+                </div>
+                <textarea
+                  id="tags"
+                  name="tags"
+                  rows="2"
+                  placeholder="e.g. landscape, scenery, rating:safe"
+                  aria-describedby="tag-help"
+                ></textarea>
+                <p class="field-help" id="tag-help">
+                  Separate tags with spaces or commas. Use underscores within a tag.
+                </p>
+                <div class="amount-row">
+                  <label class="field-label" for="amount">Files per source</label
+                  ><span class="field-help">Up to 1,000 posts</span>
+                </div>
+                <div class="amount-controls">
+                  <input
+                    id="amount"
+                    name="amount"
+                    type="number"
+                    min="1"
+                    max="1000"
+                    value="50"
+                    required
+                  /><button type="button" class="preset" data-amount="50">50</button
+                  ><button type="button" class="preset" data-amount="100">100</button
+                  ><button type="button" class="preset" data-amount="250">250</button>
+                </div>
+                <div class="switches">
+                  <label class="switch-row" for="random"
+                    ><span
+                      ><strong>Randomize results</strong
+                      ><small>A fresh selection each time</small></span
+                    ><input id="random" type="checkbox" checked /><span
+                      class="switch"
+                      aria-hidden="true"
+                    ></span
+                  ></label>
+                  <label class="switch-row" for="organized"
+                    ><span
+                      ><strong>Organize by post</strong
+                      ><small>Individual folders with metadata</small></span
+                    ><input id="organized" type="checkbox" /><span
+                      class="switch"
+                      aria-hidden="true"
+                    ></span
+                  ></label>
+                  <label class="switch-row" for="allsite"
+                    ><span
+                      ><strong>Search all sources</strong
+                      ><small>Separate folders for each website</small></span
+                    ><input id="allsite" type="checkbox" /><span
+                      class="switch"
+                      aria-hidden="true"
+                    ></span
+                  ></label>
+                </div>
+                <details class="advanced">
+                  <summary>Advanced settings <span aria-hidden="true">+</span></summary>
+                  <div class="advanced-grid">
+                    <label for="concurrency"
+                      >Parallel downloads<input
+                        id="concurrency"
+                        type="number"
+                        min="1"
+                        max="8"
+                        value="4"
+                        required /></label
+                    ><label for="maxFileSizeMB"
+                      >Max file size (MB)<input
+                        id="maxFileSizeMB"
+                        type="number"
+                        min="1"
+                        max="2048"
+                        value="100"
+                        required /></label
+                    ><label for="retries"
+                      >Retries<input
+                        id="retries"
+                        type="number"
+                        min="0"
+                        max="5"
+                        value="2"
+                        required /></label
+                    ><label for="timeout"
+                      >Timeout (seconds)<input
+                        id="timeout"
+                        type="number"
+                        step="0.001"
+                        min="1"
+                        max="300"
+                        value="30"
+                        required
+                    /></label>
+                  </div>
+                </details>
+                <p id="form-error" class="error-message" role="alert" hidden></p>
+                <button type="submit" class="primary-button" id="start-button" disabled>
+                  Start extraction <span aria-hidden="true">↗</span>
+                </button>
+                <p class="submit-note">
+                  Files save locally. Results depend on source availability.
+                </p>
+              </form>
+            </section>
+            <section class="panel activity-panel" aria-labelledby="activity-heading">
+              <div class="panel-heading">
+                <h2 id="activity-heading">Current batch</h2>
+                <span class="state-badge" id="job-state">READY</span>
+              </div>
+              <div id="idle-state" class="idle-state">
+                <div class="collection-art" aria-hidden="true">
+                  <div class="art-card back"></div>
+                  <div class="art-card middle"></div>
+                  <div class="art-card front">
+                    <svg viewBox="0 0 80 80" fill="none">
+                      <rect
+                        x="13"
+                        y="16"
+                        width="54"
+                        height="48"
+                        rx="7"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                      <circle cx="29" cy="31" r="5" stroke="currentColor" stroke-width="2" />
+                      <path
+                        d="m16 54 17-17 12 12 8-8 12 13"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  <span class="art-spark">✦</span>
+                </div>
+                <h3>Your next collection starts here</h3>
+                <p>Set up an extraction to see your files<br />arrive in real time.</p>
+                <div class="idle-steps">
+                  <span><b>01</b> Choose a source</span><span><b>02</b> Add your tags</span
+                  ><span><b>03</b> Start collecting</span>
+                </div>
+              </div>
+              <div id="active-state" class="active-state" hidden>
+                <div class="job-summary">
+                  <span class="eyebrow" id="job-source">EXTRACTION</span>
+                  <h3 id="job-message" role="status">Searching for posts…</h3>
+                  <p id="job-detail">Preparing your batch</p>
+                </div>
+                <div class="metrics">
+                  <div><span id="metric-downloaded">0</span><small>DOWNLOADED</small></div>
+                  <div><span id="metric-found">0</span><small>FOUND</small></div>
+                  <div><span id="metric-failed">0</span><small>FAILED</small></div>
+                  <div><span id="metric-skipped">0</span><small>SKIPPED</small></div>
+                </div>
+                <progress
+                  id="job-progress"
+                  max="1"
+                  value="0"
+                  aria-label="Batch progress"
+                ></progress>
+                <div class="progress-info">
+                  <span id="progress-text">Waiting for results</span
+                  ><span id="progress-size">0 B</span>
+                </div>
+                <div class="log-heading">
+                  <span>ACTIVITY</span><span class="live-label" id="live-label">● LIVE</span>
+                </div>
+                <div
+                  id="activity-log"
+                  class="activity-log"
+                  role="log"
+                  aria-label="Recent extraction activity"
+                ></div>
+                <div class="job-actions">
+                  <button type="button" id="cancel-button" class="secondary-button">
+                    Cancel extraction</button
+                  ><button type="button" id="view-job-button" class="secondary-button" hidden>
+                    View batch <span aria-hidden="true">↗</span>
+                  </button>
+                </div>
+              </div>
+              <div class="output-footer">
+                <span class="folder-icon" aria-hidden="true">▱</span>
+                <div><span>SAVING TO</span><code id="output-path">./batches</code></div>
+                <button
+                  type="button"
+                  class="icon-button"
+                  id="copy-path"
+                  aria-label="Copy output folder path"
+                  title="Copy path"
+                >
+                  ⧉
+                </button>
+              </div>
+            </section>
+          </div>
+          <section
+            class="panel batches-panel"
+            id="batches-section"
+            aria-labelledby="batches-heading"
+          >
+            <div class="panel-heading">
+              <div class="batches-title">
+                <h2 id="batches-heading">Recent batches</h2>
+                <span id="history-count" class="count-badge">0</span>
+              </div>
+              <button type="button" class="text-button" id="refresh-batches">
+                Refresh <span aria-hidden="true">↻</span>
+              </button>
+            </div>
+            <div id="history-empty" class="history-empty">
+              <span aria-hidden="true">▤</span>
+              <p>No batches yet. Your saved extractions will appear here.</p>
+            </div>
+            <div class="table-scroll" id="history-table" hidden>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Collection</th>
+                    <th>Created</th>
+                    <th>Files</th>
+                    <th>Size</th>
+                    <th>Status</th>
+                    <th><span class="sr-only">Actions</span></th>
+                  </tr>
+                </thead>
+                <tbody id="history-rows"></tbody>
+              </table>
+            </div>
+          </section>
+          <footer class="page-footer">
+            <span>Find it. Collect it. Keep it.</span
+            ><span>CLI available · <code>node main.js</code></span>
+          </footer>
+        </div>
+      </main>
+    </div>
+    <dialog id="batch-dialog" aria-labelledby="dialog-title">
+      <div class="dialog-heading">
+        <div>
+          <span class="eyebrow">SAVED COLLECTION</span>
+          <h2 id="dialog-title">Batch details</h2>
+        </div>
+        <button
+          type="button"
+          class="icon-button"
+          id="close-dialog"
+          aria-label="Close batch details"
+        >
+          ×
+        </button>
+      </div>
+      <p id="dialog-summary"></p>
+      <div id="dialog-errors" class="error-message" hidden></div>
+      <div class="dialog-toolbar">
+        <a id="manifest-link" class="secondary-button" download
+          >Download manifest <span aria-hidden="true">↓</span></a
+        ><span id="dialog-file-count"></span>
+      </div>
+      <div id="file-grid" class="file-grid"></div>
+      <p id="dialog-empty" class="history-empty" hidden>This batch has no downloaded files.</p>
+    </dialog>
+    <div id="toast" class="toast" role="status" hidden></div>
+  </body>
+</html>

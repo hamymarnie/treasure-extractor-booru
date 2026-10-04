@@ -1,10 +1,20 @@
 {
   "name": "treasure-extractor-booru",
-  "version": "1.0.0",
-  "description": "Extracts images from booru websites.",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "A local booru downloader with a CLI and web interface.",
+  "main": "src/extractor.js",
+  "bin": {
+    "treasure-extractor": "main.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "cli": "node main.js",
+    "test": "node --test",
+    "check": "node scripts/check.js",
+    "start": "node web.js",
+    "dev": "node --watch web.js"
+  },
+  "engines": {
+    "node": ">=22.14.0"
   },
   "repository": {
     "type": "git",
@@ -13,17 +23,9 @@
   "keywords": [
     "booru",
     "extractor",
+    "downloader",
     "danbooru",
-    "gelbooru",
-    "e621",
-    "e926",
-    "konachan",
-    "yandere",
-    "furry",
-    "lolibooru",
-    "realbooru",
-    "rule34.xx",
-    "rule.paheal.net"
+    "gelbooru"
   ],
   "author": "marnie",
   "license": "ISC",
@@ -32,11 +34,6 @@
   },
   "homepage": "https://github.com/hamymarnie/treasure-extractor-booru#readme",
   "dependencies": {
-    "axios": "^0.21.1",
-    "booru": "^2.2.3",
-    "cli-progress": "^3.8.2",
-    "fs": "0.0.1-security",
-    "fs-extra": "^9.0.0",
-    "xmlhttprequest": "^1.8.0"
+    "booru": "^2.9.0"
   }
 }

@@ -3,3 +3,8 @@ batches/
 FORCE
 node_modules/
 .DS_Store
+coverage/
+*.log
+.env
+.env.*
+.cache/
